@@ -1,2 +1,0 @@
-var t = require('tcomb');
-
