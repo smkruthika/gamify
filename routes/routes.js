@@ -60,6 +60,45 @@ var appRouter = function(app) {
         return res.send(200);
 
 	});
+	//GIRIDHAR
+	app.put("/user/:name", function(req, res) {
+		var userName = req.params.name;
+		var gameId = req.body.gameId;
+		var points = req.body.points;
+		//console.log(gameId)
+		//console.log(points)
+		var index = userDetails.findIndex(x => x.name == userName);
+		if (index == null || index == 'undefined') {
+			return res.send("404 - UserName not found");
+		}
+		console.log(index);
+		var userData = userDetails[index];
+		var games = userData.games;
+
+		var game_index = games.findIndex(x => x.gameId == gameId);
+		console.log(game_index)
+		if (game_index == null || game_index == 'undefined' || game_index == -1) {
+			console.log(" Game not found");
+			var g1 = {
+				"gameId": gameId,
+				"gamePoint": points
+			};
+			userDetails[index].games.push(g1);
+		} else {
+			userDetails[index].games[game_index]["gamePoint"] = points;
+		}
+
+
+		var tot_points = 0;
+		for (var i = 0; i < games.length; i++) {
+			tot_points += games[i].gamePoint;
+		}
+		userDetails[index].points = tot_points;
+		//console.log(userDetails[index])
+
+		return res.send(200);
+
+	});	
 }
 
 
